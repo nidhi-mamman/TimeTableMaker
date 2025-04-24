@@ -2,11 +2,24 @@ const express = require("express")
 const cors = require("cors")
 const dotenv = require("dotenv").config()
 const connectDB = require("./config/db")
+const HODRouter = require('./router/index')
+
 let PORT = process.env.PORT
 const app = express()
-app.use(cors)
-app.use(express.json())
+// Middlewares
+const corsOptions = {
+    origin: ["http://localhost:5173"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+};
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use('/api', HODRouter)
+
 connectDB()
+
 app.listen(PORT, () => {
     console.log(`server listening on port ${PORT}`)
 })

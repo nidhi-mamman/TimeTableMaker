@@ -1,23 +1,85 @@
 import { Link } from 'react-router-dom'
 import './MyAccount.css'
 import InputBox from '../InputBox/input.components'
-import { useEffect, useState } from 'react'
-// import { IoIosCheckmarkCircle } from "react-icons/io";
-// import { BiSolidError } from "react-icons/bi";
+import { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Context/auth.context'
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { BiSolidError } from "react-icons/bi";
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const MyAccount = ({ type }) => {
-    const [securityQuestion, setSecurityQuestion] = useState('');
+    const navigate = useNavigate()
+    const [securityQuestion, setSecurityQuestion] = useState("");
+    const formRef = useRef(null)
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState("");
+    const { Signup_URL } = useAuth();
+
 
     useEffect(() => {
         window.scrollTo(0, 0)
+        if (formRef.current) {
+            formRef.current.reset();
+        }
     }, [type]);
 
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage("");
+                setMessageType("");
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage("")
+        let form = new FormData(formRef.current);
+        let formData = {};
+
+        for (let [key, value] of form.entries()) {
+            formData[key] = value;
+        }
+
+        const endpoint = type === "Sign-In" ? "signin" : "post";
+
+        try {
+            const response = await axios.post(`${Signup_URL}/${endpoint}`, formData)
+
+            if (response.status === 200) {
+                setMessage(type === "Sign-In" ? "Signed in successfully!" : "Signed up successfully!");
+                setMessageType("success");
+                setTimeout(() => {
+                    formRef.current.reset();
+                    if (type === "Sign-In") {
+
+                        navigate("/");
+
+                    } else {
+                        navigate("/signin");
+                    }
+                }, 1000);
+            }
+        } catch (error) {
+            if (error.response) {
+                setMessage(error.response.data.msg || "Something went wrong.");
+                setMessageType("error");
+            } else {
+                setMessage("Network error! Please try again later.");
+                setMessageType("error");
+            }
+        }
+    };
     return (
         <section>
-            <form className="form-box">
+            <form ref={formRef} onSubmit={handleSubmit} className="form-box">
                 <h1>{type === 'Sign-In' ? 'Welcome Back' : "SignUp"}</h1>
 
-                {/* {message && (
+                {message && (
                     <p style={{
                         color: messageType === "success" ? "#1a7431" : "#660708",
                         minHeight: "3rem",
@@ -39,15 +101,15 @@ const MyAccount = ({ type }) => {
                         {messageType === "success" ? <  IoIosCheckmarkCircle style={{ color: "#1a7431" }} size={20} /> : < BiSolidError style={{ color: "#660708" }} size={20} />}
                         {message}
                     </p>
-                )} */}
+                )}
 
                 {type !== 'Sign-In' && (
                     <InputBox
-                        name="username"
+                        name="fname"
                         type="text"
                         icon="user"
                         id="username"
-                        placeholder="Username *"
+                        placeholder="Full Name *"
                     />
                 )}
 
@@ -68,7 +130,7 @@ const MyAccount = ({ type }) => {
                     id="password"
                     placeholder="Password *" />
 
-                {
+                {/* {
                     type === 'Sign-Up' && (
                         <>
                             <select name="branch" id="branches" defaultValue="">
@@ -81,7 +143,7 @@ const MyAccount = ({ type }) => {
                             </select>
                         </>
                     )
-                }
+                } */}
                 {
                     type === 'Sign-Up' && (
                         <>
@@ -112,11 +174,16 @@ const MyAccount = ({ type }) => {
                     />
                 )}
 
-                <button className='button'>{type.replace("-", " ")}</button>
+                <button type='submit' className='button'>{type.replace("-", " ")}</button>
                 {
                     type === "Sign-In" && (
                         <>
-                            <p className='forgotpass'><Link to='/forgotpass' className='text-primary'>Forgot Password?</Link></p>
+                            <p className='forgotpass'><Link to='/forgotpass' className='text-primary' onClick={() => {
+                                const emailInput = document.getElementById("email");
+                                if (emailInput) {
+                                    Cookies.set('resetEmail', emailInput.value, { expires: 1 });
+                                }
+                            }}>Forgot Password?</Link></p>
                         </>
                     )
                 }
