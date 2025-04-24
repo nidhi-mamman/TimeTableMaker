@@ -57,7 +57,7 @@ const MyAccount = ({ type }) => {
                     formRef.current.reset();
                     if (type === "Sign-In") {
 
-                        navigate("/");
+                        navigate("/timetableview");
 
                     } else {
                         navigate("/signin");
@@ -74,6 +74,22 @@ const MyAccount = ({ type }) => {
             }
         }
     };
+
+    const handleForgotPassword = () => {
+        const emailInput = document.getElementById("email");
+        const email = emailInput?.value.trim();
+
+        if (!email) {
+            setMessage("Please enter your email before proceeding.");
+            setMessageType("error");
+            return;
+        }
+
+        Cookies.set('resetEmail', email, { expires: 1 });
+        navigate('/forgotpass');
+    };
+
+
     return (
         <section>
             <form ref={formRef} onSubmit={handleSubmit} className="form-box">
@@ -164,7 +180,7 @@ const MyAccount = ({ type }) => {
                     )
                 }
 
-                {securityQuestion && (
+                {securityQuestion && type === 'Sign-Up' && (
                     <InputBox
                         name="securityAnswer"
                         type="text"
@@ -178,12 +194,17 @@ const MyAccount = ({ type }) => {
                 {
                     type === "Sign-In" && (
                         <>
-                            <p className='forgotpass'><Link to='/forgotpass' className='text-primary' onClick={() => {
-                                const emailInput = document.getElementById("email");
-                                if (emailInput) {
-                                    Cookies.set('resetEmail', emailInput.value, { expires: 1 });
-                                }
-                            }}>Forgot Password?</Link></p>
+                            <p className='forgotpass'>
+                                <button
+                                    type="button"
+                                    className="text-primary"
+                                    onClick={handleForgotPassword}
+                                    style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "#0d6efd" }}
+                                >
+                                    Forgot Password?
+                                </button>
+                            </p>
+
                         </>
                     )
                 }

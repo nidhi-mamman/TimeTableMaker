@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     // const isLoggedIn = !!token
 
     const Signup_URL = "http://localhost:4000/api"
+    const TimeTable_URL = "http://localhost:4000/api/timetable"
 
     // const logoutUser = () => {
     //     setToken("")
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ Signup_URL }}>
+        <AuthContext.Provider value={{ Signup_URL, TimeTable_URL }}>
             {children}
         </AuthContext.Provider>
     );

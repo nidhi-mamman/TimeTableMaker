@@ -1,7 +1,9 @@
+import '../CSS/styles.css'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../Context/auth.context';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 
 const VerifySecurityForm = () => {
@@ -28,7 +30,10 @@ const VerifySecurityForm = () => {
         try {
             const res = await axios.post(`${Signup_URL}/verify-answer`, { email, securityAnswer: answer });
             alert("Verified! Proceed to reset password.");
-            navigate('/resetpass')
+
+            if (res.status === 200) {
+                navigate('/resetpass');
+            }
 
         } catch (err) {
             alert(err.response?.data?.msg || "Error verifying answer.");
@@ -36,7 +41,7 @@ const VerifySecurityForm = () => {
     };
 
     useEffect(() => {
-        const storedEmail = localStorage.getItem("resetEmail");
+        const storedEmail = Cookies.get('resetEmail')
         if (storedEmail) {
             setEmail(storedEmail);
         }
@@ -44,32 +49,41 @@ const VerifySecurityForm = () => {
 
     return (
         <>
-            {step === 1 && (
-                <form onSubmit={handleGetQuestion}>
-                    <input
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        required
-                    />
-                    <button type="submit">Get Security Question</button>
-                </form>
-            )}
+            <section>
 
-            {step === 2 && (
-                <form onSubmit={handleVerify}>
-                    <input type="email" value={email} readOnly />
-                    <input type="text" value={question} readOnly />
-                    <input
-                        type="text"
-                        placeholder="Your answer"
-                        value={answer}
-                        onChange={(e) => setAnswer(e.target.value)}
-                        required
-                    />
-                    <button type="submit">Verify Answer</button>
-                </form>
-            )}
+                {step === 1 && (
+                    <>
+                        <h1 className='headings'>Verify Yourself!</h1>
+                        <form className='verify-form' onSubmit={handleGetQuestion}>
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                defaultValue={email}
+                                required
+                            />
+                            <button type="submit">Get Security Question</button>
+                        </form>
+                    </>
+                )}
+
+                {step === 2 && (
+                    <>
+                        <h1 className='headings'>Answer it!</h1>
+                        <form onSubmit={handleVerify} className='verify-form'>
+                            <input type="email" defaultValue={email} readOnly />
+                            <input type="text" defaultValue={question} readOnly />
+                            <input
+                                type="text"
+                                placeholder="Your answer"
+                                value={answer}
+                                onChange={(e) => setAnswer(e.target.value)}
+                                required
+                            />
+                            <button type="submit">Verify Answer</button>
+                        </form>
+                    </>
+                )}
+            </section>
         </>
     );
 };

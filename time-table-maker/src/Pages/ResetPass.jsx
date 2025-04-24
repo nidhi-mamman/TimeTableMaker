@@ -1,8 +1,10 @@
+import '../CSS/styles.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/auth.context';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const ResetPass = () => {
     const navigate = useNavigate();
@@ -11,6 +13,8 @@ const ResetPass = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         const storedEmail = Cookies.get('resetEmail');
@@ -50,30 +54,47 @@ const ResetPass = () => {
     };
 
     return (
-        <form onSubmit={handleResetPassword}>
-            <h2>Reset Your Password</h2>
-            <div>
-                <input
-                    type="password"
-                    placeholder="Enter new password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                />
-            </div>
-            <div>
-                <input
-                    type="password"
-                    placeholder="Confirm new password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                />
-            </div>
-            <button type="submit" disabled={loading}>
-                {loading ? 'Resetting...' : 'Reset Password'}
-            </button>
-        </form>
+        <section>
+            <h1 className='headings'>Reset Your Password</h1>
+            <form onSubmit={handleResetPassword} className='reset-form'>
+
+                <div className="password-field">
+                    <input
+                        type={showNewPassword ? "text" : "password"}
+                        placeholder="Enter new password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        required
+                    />
+                    <span
+                        className="eye-icon"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                    >
+                        {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                </div>
+
+                <div className="password-field">
+                    <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirm new password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                    />
+                    <span
+                        className="eye-icon"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                </div>
+
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Resetting...' : 'Reset Password'}
+                </button>
+            </form>
+        </section>
     );
 };
 

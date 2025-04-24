@@ -3,6 +3,7 @@ const cors = require("cors")
 const dotenv = require("dotenv").config()
 const connectDB = require("./config/db")
 const HODRouter = require('./router/index')
+const TimeTableRouter = require('./router/timetable')
 
 let PORT = process.env.PORT
 const app = express()
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/api', HODRouter)
+app.use('/api/timetable', TimeTableRouter)
 
 connectDB()
 

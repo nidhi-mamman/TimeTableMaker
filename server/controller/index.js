@@ -55,13 +55,14 @@ const createHOD = async (req, res) => {
             });
         }
         const encPassword = await bcrypt.hash(password, 10)
+        const hashedAnswer = await bcrypt.hash(securityAnswer, 10);
 
         const hod = await HOD.create({
             fname: formattedName,
             email: email,
             password: encPassword,
             securityQuestion: securityQuestion,
-            securityAnswer: securityAnswer
+            securityAnswer: hashedAnswer
         })
 
         if (hod) {
@@ -143,7 +144,8 @@ const verifySecurityAnswer = async (req, res) => {
             return res.status(404).json({ msg: "User not found." });
         }
 
-        if (hod.securityAnswer !== securityAnswer) {
+        const isMatch = await bcrypt.compare(securityAnswer, hod.securityAnswer);
+        if (!isMatch) {
             return res.status(401).json({ msg: "Incorrect security answer." });
         }
 
