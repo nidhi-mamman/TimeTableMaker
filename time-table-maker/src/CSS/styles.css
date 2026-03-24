@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+section {
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+    flex-direction: column !important;
+    width: 100%;
+    margin-block: 3rem !important;
+    min-height: 30rem;
+}
+
+.verify-form {
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+    flex-direction: column !important;
+    width: 15rem;
+    height: 15rem;
+    box-shadow: 2px 2px 3px inset rgb(160, 160, 160), -2px -2px 3px inset rgb(160, 160, 160);
+}
+
+.verify-form input {
+    padding-left: 4px !important;
+    width: 12rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.verify-form button,
+.reset-form button,
+.time-table-form-wrapper form button {
+    width: 10rem;
+    height: 2rem;
+    color: white;
+    border: none !important;
+    background: green;
+}
+
+.headings {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    color: blue !important;
+}
+
+.reset-form {
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+    flex-direction: column !important;
+    width: 20rem;
+    height: 20rem;
+    box-shadow: 2px 2px 3px inset rgb(160, 160, 160), -2px -2px 3px inset rgb(160, 160, 160);
+}
+
+.reset-form input {
+    width: 15rem;
+}
+
+.password-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #555;
+}
+
+table {
+    margin-top: 20px !important;
+}
+
+th {
+    background: #2102eb;
+    color: white;
+}
+
+th,
+td,
+tr {
+    padding: 10px !important;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.time-table-wrapper {
+    padding: 20px !important;
+}
+
+.time-table-wrapper a {
+    font-size: 18px;
+}
+
+.heading2 {
+    font-size: 34px;
+    font-weight: 600;
+    margin-bottom: 20px !important;
+}
+
+.time-table-form-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin-block: 3rem !important;
+    min-height: 50rem;
+
+}
+
+.time-table-form-wrapper form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    width: 30rem;
+    padding: 20px !important;
+    background: rgb(215, 206, 206);
+}
+
+.time-table-form-wrapper form input,
+.time-table-form-wrapper form select {
+    width: 20rem;
+    padding: 10px !important;
+}

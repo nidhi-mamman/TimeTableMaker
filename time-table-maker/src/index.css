@@ -1,0 +1,112 @@
+/* .main-container {
+  box-shadow: 2px 2px 4px rgb(218, 217, 217), -2px -2px 4px rgb(218, 217, 217);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 450px;
+  margin-top: 20px;
+}
+
+
+.signin-container,
+.overlay-container {
+  width: 50%;
+}
+
+.overlay-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #e6445f;
+  color: white;
+}
+
+.overlay-container p {
+  font-size: 12px;
+}
+
+.overlay-container button ,.signin-container button{
+  border-radius: 30px;
+  border: 2px solid white;
+  background: transparent !important;
+  height: 3rem;
+  width: 8rem;
+  color: white;
+  font-weight: 600;
+}
+
+.signin-container button{
+  background-color: #e6445f!important;
+}
+
+.signin-container form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.signin-container input {
+  width: 25rem;
+  height: 3rem;
+  padding-inline: 20px;
+  margin-bottom: 20px;
+  background-color: rgb(221, 218, 218);
+  outline: none !important;
+  border: none !important;
+}
+
+.signin-container .input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 25rem;
+  margin-bottom: 15px;
+}
+
+.signin-container .input-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.signin-container .input-group label {
+  font-size: 14px;
+  color: rgb(128, 127, 127);
+  cursor: pointer;
+}
+
+.signin-container h1 {
+  font-weight: bolder;
+}
+
+.signin-container p {
+  color: rgb(128, 127, 127);
+}
+
+.overlay-signup:hover .overlay-container{
+  transform: translateX(-100%)!important;
+} */
+
+.wrapper {
+  position: relative;
+  height: 750px;
+  height: 450px;
+  background: transparent;
+  border: 2px solif #0ef;
+}
+
+.wrapper .form-box {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
